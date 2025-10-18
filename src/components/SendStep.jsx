@@ -151,7 +151,7 @@ const SendStep = ({ posterData, emailStatus, setEmailStatus, onBack, onReset, sh
       <div className="send-options">
         <div className="send-option">
           <h3><i className="fas fa-envelope"></i> Send Poster via Email</h3>
-          <p>Enter your email address to receive your safety poster</p>
+          <p>Enter the email address to send your safety poster.</p>
           {!emailStatus.sent ? (
             <div className="email-input-group">
               <input
