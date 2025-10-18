@@ -21,7 +21,7 @@ const EmailModal = ({ isOpen, onClose, onSend, posterData, isSending }) => {
         </div>
         
         <div className="modal-body">
-          <p>Enter your email address to receive your safety poster as a PDF attachment.</p>
+          <p>Enter the email address to send your safety poster.</p>
           
           <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -29,7 +29,7 @@ const EmailModal = ({ isOpen, onClose, onSend, posterData, isSending }) => {
               <input
                 id="email-input"
                 type="email"
-                placeholder="your.email@example.com"
+                placeholder="email@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
