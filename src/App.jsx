@@ -63,7 +63,7 @@ function App() {
   const validateForm = () => {
     const { name, role, reason } = posterData
     if (!name.trim() || !role.trim() || !reason.trim()) {
-      alert('Por favor, preencha todos os campos obrigatórios')
+      alert('Please fill in all required fields.')
       return false
     }
     return true
@@ -71,7 +71,7 @@ function App() {
 
   const validateImages = () => {
     if (posterData.images.length === 0) {
-      alert('Por favor, adicione pelo menos uma imagem')
+      alert('Please fill in all required fields.')
       return false
     }
     return true
