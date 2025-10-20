@@ -13,7 +13,7 @@ const FormStep = ({ posterData, updatePosterData, onContinue }) => {
   return (
     <section className="step active">
       <div className="step-header">
-        <h2><i className="fas fa-edit"></i> Step 1: Tell Your Story</h2>
+        <h2><i className="fas fa-edit"></i> Step 1: What are your biggest reasons for you to go home safe and well?</h2>
         <p>Share why you stay inside the SafetyCircle®</p>
       </div>
       <form className="poster-form" onSubmit={handleSubmit}>
@@ -27,8 +27,13 @@ const FormStep = ({ posterData, updatePosterData, onContinue }) => {
             value={posterData.reason}
             onChange={handleInputChange('reason')}
             required
+            maxLength={120}
           />
+          <div className="char-counter">
+            {posterData.reason.length}/120 characters
+          </div>
         </div>
+        
         
         <div className="form-row">
           <div className="form-group">

@@ -175,6 +175,14 @@ body {
 
 .form-group {
     margin-bottom: var(--spacing-lg);
+    position: relative;
+}
+
+.char-counter {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-align: right;
+    margin-top: var(--spacing-xs);
 }
 
 .form-row {
@@ -250,6 +258,18 @@ textarea {
 .upload-limit {
     font-size: 0.9rem;
     color: var(--text-light);
+}
+
+.upload-quality-hint {
+    font-size: 0.20rem;
+    color: var(--text-light);
+    margin-top: var(--spacing-xs);
+    max-width: 380px;
+    line-height: 1.0;
+    opacity: 0.85;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .image-preview {

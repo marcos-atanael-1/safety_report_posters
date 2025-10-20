@@ -75,6 +75,7 @@ const ImageUploadStep = ({ posterData, addImage, removeImage, onBack, onContinue
           <i className="fas fa-cloud-upload-alt"></i>
           <p>Click or drag photos here</p>
           <p className="upload-limit">Maximum 4 images</p>
+          <p className="upload-quality-hint">For best print results, please use photos larger than 2500 x 1750 pixels or with a file size greater than 2 MB</p>
           <input
             ref={fileInputRef}
             type="file"
