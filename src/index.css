@@ -93,7 +93,7 @@ body {
 }
 
 .logo-text h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: var(--font-weight-bold);
     margin: 0;
     line-height: 1;
@@ -937,7 +937,7 @@ textarea {
     }
     
     .logo-image {
-        height: 65px;
+        height: 72px;
     }
     
     .logo-text {
@@ -945,7 +945,7 @@ textarea {
     }
     
     .logo-text h2 {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
     }
     
     .logo-text h1 {
