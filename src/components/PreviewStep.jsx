@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { createRoot } from 'react-dom/client'
 import PosterPreview from './PosterPreview'
+import PosterPDF from './PosterPDF'
 import ImageSelector from './ImageSelector'
 import EmailModal from './EmailModal'
 import html2canvas from 'html2canvas'
@@ -19,6 +21,52 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
     }, 150)
   }
 
+  const generatePDFFromComponent = async () => {
+    // Cria um container temporário
+    const tempContainer = document.createElement('div')
+    tempContainer.style.position = 'absolute'
+    tempContainer.style.left = '-9999px'
+    tempContainer.style.top = '0'
+    document.body.appendChild(tempContainer)
+
+    try {
+      // Renderiza o componente PosterPDF
+      const root = createRoot(tempContainer)
+      await new Promise((resolve) => {
+        root.render(<PosterPDF posterData={posterData} />)
+        setTimeout(resolve, 500) // Aguarda renderização
+      })
+
+      const pdfElement = tempContainer.querySelector('.poster-pdf-wrapper')
+      if (!pdfElement) {
+        throw new Error('PDF element not found')
+      }
+
+      // Captura como imagem
+      const canvas = await html2canvas(pdfElement, {
+        backgroundColor: '#F0F1F1',
+        scale: 4,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        windowWidth: pdfElement.scrollWidth,
+        windowHeight: pdfElement.scrollHeight
+      })
+
+      // Limpa o container temporário
+      root.unmount()
+      document.body.removeChild(tempContainer)
+
+      return canvas
+    } catch (error) {
+      // Limpa em caso de erro
+      if (tempContainer.parentNode) {
+        document.body.removeChild(tempContainer)
+      }
+      throw error
+    }
+  }
+
   const handleSendEmail = async (email) => {
     if (!email || !email.trim()) {
       showModal('Please enter an email address', 'error')
@@ -28,23 +76,10 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
     setIsSending(true)
 
     try {
-      const posterElement = document.querySelector('.poster')
-      if (!posterElement) {
-        throw new Error('Poster element not found')
-      }
-
       console.log('Generating PDF for email...')
 
-      // Captura o poster como imagem
-      const canvas = await html2canvas(posterElement, {
-        backgroundColor: '#ffffff',
-        scale: 4,
-        useCORS: true,
-        allowTaint: true,
-        logging: false,
-        windowWidth: posterElement.scrollWidth,
-        windowHeight: posterElement.scrollHeight
-      })
+      // Gera o canvas do PDF
+      const canvas = await generatePDFFromComponent()
 
       // Cria o PDF
       const pdf = new jsPDF({
@@ -114,25 +149,10 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
   const handleDownloadPDF = async () => {
     setIsDownloading(true)
     try {
-      const posterElement = document.querySelector('.poster')
-      if (!posterElement) {
-        showModal('Error: Poster not found', 'error')
-        setIsDownloading(false)
-        return
-      }
-
       console.log('Starting poster capture...')
 
-      // Captura o poster como imagem com alta qualidade
-      const canvas = await html2canvas(posterElement, {
-        backgroundColor: '#ffffff',
-        scale: 4, // Alta qualidade
-        useCORS: true,
-        allowTaint: true,
-        logging: false,
-        windowWidth: posterElement.scrollWidth,
-        windowHeight: posterElement.scrollHeight
-      })
+      // Gera o canvas do PDF
+      const canvas = await generatePDFFromComponent()
 
       console.log('Canvas created:', canvas.width, 'x', canvas.height)
 
@@ -207,10 +227,23 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
       />
       
       <div className="poster-container">
-        <PosterPreview
-          posterData={posterData}
-          isUpdating={isUpdating}
-        />
+        <div className="preview-poster-wrapper">
+          {/* Header do Preview */}
+          <div className="preview-header">
+            <div className="preview-logo">
+              <img src="/images/safetycircle-logo.png" alt="SafetyCircle" className="preview-logo-image" />
+              <div className="preview-logo-text">
+                <h2>SafetyCircle®</h2>
+              </div>
+            </div>
+          </div>
+
+          {/* Poster */}
+          <PosterPreview
+            posterData={posterData}
+            isUpdating={isUpdating}
+          />
+        </div>
       </div>
       
       <div className="preview-actions">

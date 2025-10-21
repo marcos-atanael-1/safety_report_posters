@@ -13,7 +13,7 @@ const PosterPreview = ({ posterData, isUpdating }) => {
       style={{ opacity: isUpdating ? '0.7' : '1' }}
     >
       <div className="poster-title">
-        <h1>Why I stay inside the SafetyCircle®</h1>
+        <h1>Why I stay inside the Circle</h1>
       </div>
       <img 
         src={selectedImage.url} 
@@ -30,7 +30,6 @@ const PosterPreview = ({ posterData, isUpdating }) => {
         <div className="poster-footer-text">
           Manage Risks Well | Go Home Safe and Well Today
         </div>
-        <i className="fas fa-user-circle"></i>
       </div>
     </div>
   )
