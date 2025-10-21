@@ -27,6 +27,8 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
     tempContainer.style.position = 'absolute'
     tempContainer.style.left = '-9999px'
     tempContainer.style.top = '0'
+    tempContainer.style.margin = '0'
+    tempContainer.style.padding = '0'
     document.body.appendChild(tempContainer)
 
     try {

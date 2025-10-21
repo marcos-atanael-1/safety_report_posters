@@ -8,7 +8,7 @@ const PosterPDF = ({ posterData }) => {
   }
 
   return (
-    <div className="poster-pdf-wrapper">
+    <div className="poster-pdf-wrapper" style={{ margin: 0, padding: 0 }}>
       {/* Header do PDF */}
       <div className="pdf-header">
         <div className="pdf-logo">
