@@ -1,9 +1,9 @@
 /* SafetyCircle Poster Generator Styles */
 :root {
     /* SafetyCircle Brand Colors */
-    --primary-green: #8BC34A;
-    --dark-green: #689F38;
-    --light-green: #DCEDC8;
+    --primary-green: #99CC33;
+    --dark-green: #7AA928;
+    --light-green: #E8F5D0;
     --accent-orange: #FF9800;
     --text-dark: #2E2E2E;
     --text-light: #757575;
@@ -63,8 +63,8 @@ body {
 
 /* Header */
 .header {
-    background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
-    color: var(--white);
+    background: #F0F1F1;
+    color: var(--text-dark);
     padding: var(--spacing-lg) var(--spacing-md);
     text-align: center;
 }
@@ -73,11 +73,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-md);
+    gap: 4px;
 }
 
 .logo-image {
-    height: 45px;
+    height: 90px;
     width: auto;
 }
 
@@ -90,6 +90,14 @@ body {
     font-weight: var(--font-weight-bold);
     margin-bottom: var(--spacing-xs);
     line-height: 1;
+}
+
+.logo-text h2 {
+    font-size: 1.8rem;
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+    line-height: 1;
+    color: #000000;
 }
 
 .logo-text p {
@@ -924,24 +932,28 @@ textarea {
     }
     
     .logo {
-        flex-direction: column;
-        gap: var(--spacing-sm);
+        flex-direction: row;
+        gap: 4px;
     }
     
     .logo-image {
-        height: 35px;
+        height: 65px;
     }
     
     .logo-text {
-        text-align: center;
+        text-align: left;
+    }
+    
+    .logo-text h2 {
+        font-size: 1.4rem;
     }
     
     .logo-text h1 {
-        font-size: 2rem;
+        font-size: 1.6rem;
     }
     
     .logo-text p {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
     
     .main-content {
