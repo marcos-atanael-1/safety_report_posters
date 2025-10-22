@@ -480,7 +480,9 @@ textarea {
 }
 
 .poster-for-pdf .poster-image {
-    height: 220px;
+    height: auto;
+    min-height: 180px;
+    max-height: 250px;
     object-fit: contain;
     width: 100%;
     max-width: 400px;
