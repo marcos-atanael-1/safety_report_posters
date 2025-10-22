@@ -21,15 +21,18 @@ const EmailModal = ({ isOpen, onClose, onSend, posterData, isSending }) => {
         </div>
         
         <div className="modal-body">
-          <p>Enter the email address to send your safety poster.</p>
+          <p>Enter email address(es) to send your safety poster.</p>
+          <p style={{ fontSize: '0.85rem', color: '#757575', marginTop: '4px' }}>
+            <i className="fas fa-info-circle"></i> You can enter multiple emails separated by commas
+          </p>
           
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="email-input">Email Address</label>
+              <label htmlFor="email-input">Email Address(es)</label>
               <input
                 id="email-input"
-                type="email"
-                placeholder="email@example.com"
+                type="text"
+                placeholder="email1@example.com, email2@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required

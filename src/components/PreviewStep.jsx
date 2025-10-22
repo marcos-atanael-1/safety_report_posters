@@ -102,7 +102,7 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
-        format: 'a3',
+        format: 'a4',
         compress: true
       })
 
