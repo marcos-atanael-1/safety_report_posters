@@ -9,13 +9,16 @@ const PosterPDF = ({ posterData }) => {
 
   return (
     <div className="poster-pdf-wrapper" style={{ 
-      margin: 0, 
-      padding: '10px 20px 20px 20px', 
-      width: '400px',
-      maxWidth: '400px',
-      minWidth: '400px',
+      margin: '0 auto', 
+      padding: '20px', 
+      width: '440px',
+      maxWidth: '440px',
+      minWidth: '440px',
       backgroundColor: '#ffffff',
-      minHeight: '600px'
+      minHeight: '600px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
     }}>
       {/* Header do PDF */}
       <div className="pdf-header">
@@ -32,25 +35,18 @@ const PosterPDF = ({ posterData }) => {
         <div className="poster-title">
           <h1>Why I stay inside the Circle</h1>
         </div>
-        <img 
-          src={selectedImage.url} 
-          alt="Safety Image" 
-          className="poster-image"
-          crossOrigin="anonymous"
-          style={{
-            width: '100%',
-            height: 'auto',
-            minHeight: '180px',
-            maxHeight: '250px',
-            objectFit: 'contain',
-            backgroundColor: '#f5f5f5',
-            display: 'block'
-          }}
-        />
+        <div className="poster-image-container">
+          <img 
+            src={selectedImage.url} 
+            alt="Safety Image" 
+            className="poster-image"
+            crossOrigin="anonymous"
+          />
+        </div>
         <div className="poster-details">
-          <p><strong>Name:</strong> {posterData.name}</p>
-          <p><strong>Role:</strong> {posterData.role}</p>
-          <p><strong>What's Important:</strong> {posterData.reason}</p>
+          <p className="poster-reason"><strong>What's Important:</strong> {posterData.reason}</p>
+          <p className="poster-name"><strong>Name:</strong> {posterData.name}</p>
+          <p className="poster-role"><strong>Role:</strong> {posterData.role}</p>
         </div>
         <div className="poster-footer poster-footer-no-icon">
           <div className="poster-footer-text">

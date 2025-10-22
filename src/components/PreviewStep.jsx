@@ -44,17 +44,28 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
         throw new Error('PDF element not found')
       }
 
+      // Aguarda que a imagem carregue completamente
+      const img = pdfElement.querySelector('.poster-image')
+      if (img && !img.complete) {
+        await new Promise((resolve) => {
+          img.onload = resolve
+          img.onerror = resolve
+        })
+      }
+
+      console.log('Element dimensions:', pdfElement.offsetWidth, 'x', pdfElement.offsetHeight)
+      if (img) {
+        console.log('Image natural size:', img.naturalWidth, 'x', img.naturalHeight)
+        console.log('Image display size:', img.width, 'x', img.height)
+      }
+
       // Captura como imagem
       const canvas = await html2canvas(pdfElement, {
         backgroundColor: '#ffffff',
         scale: 2,
         useCORS: true,
         allowTaint: true,
-        logging: true,
-        width: 400,
-        height: pdfElement.scrollHeight,
-        windowWidth: 400,
-        windowHeight: pdfElement.scrollHeight,
+        logging: false,
         foreignObjectRendering: false,
         removeContainer: true
       })

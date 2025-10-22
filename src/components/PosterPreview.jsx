@@ -22,9 +22,9 @@ const PosterPreview = ({ posterData, isUpdating }) => {
         crossOrigin="anonymous"
       />
       <div className="poster-details">
-        <p><strong>Name:</strong> {posterData.name}</p>
-        <p><strong>Role:</strong> {posterData.role}</p>
-        <p><strong>What's Important:</strong> {posterData.reason}</p>
+        <p className="poster-reason"><strong>What's Important:</strong> {posterData.reason}</p>
+        <p className="poster-name"><strong>Name:</strong> {posterData.name}</p>
+        <p className="poster-role"><strong>Role:</strong> {posterData.role}</p>
       </div>
       <div className="poster-footer">
         <div className="poster-footer-text">
