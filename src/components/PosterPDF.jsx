@@ -8,7 +8,15 @@ const PosterPDF = ({ posterData }) => {
   }
 
   return (
-    <div className="poster-pdf-wrapper" style={{ margin: 0, padding: 0 }}>
+    <div className="poster-pdf-wrapper" style={{ 
+      margin: 0, 
+      padding: '10px 20px 20px 20px', 
+      width: '400px',
+      maxWidth: '400px',
+      minWidth: '400px',
+      backgroundColor: '#ffffff',
+      minHeight: '600px'
+    }}>
       {/* Header do PDF */}
       <div className="pdf-header">
         <div className="pdf-logo">
@@ -29,6 +37,13 @@ const PosterPDF = ({ posterData }) => {
           alt="Safety Image" 
           className="poster-image"
           crossOrigin="anonymous"
+          style={{
+            width: '100%',
+            height: '220px',
+            objectFit: 'contain',
+            backgroundColor: '#f5f5f5',
+            display: 'block'
+          }}
         />
         <div className="poster-details">
           <p><strong>Name:</strong> {posterData.name}</p>

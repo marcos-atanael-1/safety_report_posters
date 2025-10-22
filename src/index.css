@@ -426,17 +426,19 @@ textarea {
 
 /* Poster PDF Wrapper */
 .poster-pdf-wrapper {
-    background: #F0F1F1;
-    padding: 0;
+    background: #ffffff;
+    padding: 10px 20px 20px 20px;
     width: 100%;
     margin: 0;
+    min-height: 600px;
 }
 
 .pdf-header {
     background: #F0F1F1;
-    padding: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
     text-align: center;
-    margin: 0;
+    margin: 0 0 var(--spacing-sm) 0;
+    border-bottom: 2px solid #e0e0e0;
 }
 
 .pdf-logo {
@@ -469,7 +471,7 @@ textarea {
 
 .poster-for-pdf .poster-title {
     padding-top: var(--spacing-xs);
-    padding-bottom: var(--spacing-xs);
+    padding-bottom: var(--spacing-sm);
 }
 
 .poster-for-pdf .poster-title h1 {
@@ -480,6 +482,9 @@ textarea {
 .poster-for-pdf .poster-image {
     height: 220px;
     object-fit: contain;
+    width: 100%;
+    max-width: 400px;
+    background-color: #f5f5f5;
 }
 
 .poster-for-pdf .poster-details {
@@ -562,6 +567,17 @@ textarea {
     height: 220px;
     object-fit: cover;
     display: block;
+}
+
+/* Mobile responsive image adjustments */
+@media (max-width: 768px) {
+    .poster-image {
+        height: auto;
+        min-height: 180px;
+        max-height: 250px;
+        object-fit: contain;
+        background-color: #f5f5f5;
+    }
 }
 
 .poster-details {

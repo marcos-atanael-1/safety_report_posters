@@ -46,13 +46,17 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
 
       // Captura como imagem
       const canvas = await html2canvas(pdfElement, {
-        backgroundColor: '#F0F1F1',
-        scale: 4,
+        backgroundColor: '#ffffff',
+        scale: 2,
         useCORS: true,
         allowTaint: true,
-        logging: false,
-        windowWidth: pdfElement.scrollWidth,
-        windowHeight: pdfElement.scrollHeight
+        logging: true,
+        width: 400,
+        height: pdfElement.scrollHeight,
+        windowWidth: 400,
+        windowHeight: pdfElement.scrollHeight,
+        foreignObjectRendering: false,
+        removeContainer: true
       })
 
       // Limpa o container temporário
@@ -87,7 +91,7 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
-        format: 'a4',
+        format: 'a3',
         compress: true
       })
 
@@ -262,7 +266,7 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
           disabled={isDownloading}
         >
           {isDownloading ? (
-            <><i className="fas fa-spinner fa-spin"></i> Gerando PDF...</>
+            <><i className="fas fa-spinner fa-spin"></i> Generating PDF...</>
           ) : (
             <><i className="fas fa-download"></i> Download PDF</>
           )}
