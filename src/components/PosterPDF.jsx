@@ -23,10 +23,7 @@ const PosterPDF = ({ posterData }) => {
       {/* Header do PDF */}
       <div className="pdf-header">
         <div className="pdf-logo">
-          <img src="/images/safetycircle-logo.png" alt="SafetyCircle" className="pdf-logo-image" />
-          <div className="pdf-logo-text">
-            <h2>SafetyCircle®</h2>
-          </div>
+          <img src="/images/Logo Safety.png" alt="SafetyCircle" className="pdf-logo-image" />
         </div>
       </div>
 

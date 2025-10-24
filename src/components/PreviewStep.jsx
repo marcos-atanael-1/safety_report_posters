@@ -248,10 +248,7 @@ const PreviewStep = ({ posterData, selectImage, onBack, onEdit, onReset, showMod
           {/* Header do Preview */}
           <div className="preview-header">
             <div className="preview-logo">
-              <img src="/images/safetycircle-logo.png" alt="SafetyCircle" className="preview-logo-image" />
-              <div className="preview-logo-text">
-                <h2>SafetyCircle®</h2>
-              </div>
+              <img src="/images/Logo Safety.png" alt="SafetyCircle" className="preview-logo-image" />
             </div>
           </div>
 

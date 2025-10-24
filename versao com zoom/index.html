@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create your personalized SafetyCircle poster - Upload a photo, share what's important, and download your safety commitment poster.">
+    <title>SafetyCircle Poster Generator</title>
+    
+    <!-- Cropper.js for image cropping -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.1/dist/cropper.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header" role="banner">
+        <div class="container header-content">
+            <h1 class="app-title">
+                <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+                    <circle cx="16" cy="16" r="15" fill="#b6cf57" stroke="#263238" stroke-width="1"/>
+                    <circle cx="16" cy="12" r="4" fill="#263238"/>
+                    <path d="M 10 22 Q 10 18 16 18 Q 22 18 22 22" fill="#263238"/>
+                </svg>
+                SafetyCircle Poster Generator
+            </h1>
+            <div class="header-actions">
+                <button type="button" id="helpBtn" class="icon-btn" aria-label="Open help modal" title="Help">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <text x="10" y="15" text-anchor="middle" font-size="14" font-weight="bold">?</text>
+                    </svg>
+                </button>
+                <label class="admin-toggle" title="Toggle admin mode">
+                    <input type="checkbox" id="adminToggle" aria-label="Admin mode toggle">
+                    <span class="toggle-label">Admin</span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main" role="main">
+        <div class="container">
+            <!-- Progress Indicator -->
+            <nav class="progress-nav" aria-label="Wizard progress">
+                <ol class="progress-steps">
+                    <li class="step active" data-step="1">
+                        <span class="step-number" aria-hidden="true">1</span>
+                        <span class="step-label">Upload & Crop</span>
+                    </li>
+                    <li class="step" data-step="2">
+                        <span class="step-number" aria-hidden="true">2</span>
+                        <span class="step-label">Message</span>
+                    </li>
+                    <li class="step" data-step="3">
+                        <span class="step-number" aria-hidden="true">3</span>
+                        <span class="step-label">Details</span>
+                    </li>
+                    <li class="step" data-step="4">
+                        <span class="step-number" aria-hidden="true">4</span>
+                        <span class="step-label">Preview & Export</span>
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Wizard Container -->
+            <div class="wizard-container">
+                <!-- Step 1: Upload & Crop -->
+                <section id="step1" class="wizard-step active" aria-labelledby="step1-title">
+                    <div class="step-content">
+                        <h2 id="step1-title" class="step-title">Upload Your Photo</h2>
+                        <p class="step-description">Choose a photo that represents what matters most to you. Best results with clear, well-lit images.</p>
+                        
+                        <div class="upload-area" id="uploadArea" tabindex="0" role="button" aria-label="Click or drag to upload image">
+                            <svg class="upload-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M32 16 L32 48 M16 32 L48 32"/>
+                                <rect x="8" y="8" width="48" height="48" rx="8"/>
+                            </svg>
+                            <p class="upload-text">
+                                <strong>Click to upload</strong> or drag and drop<br>
+                                <span class="upload-hint">JPG, PNG or HEIC (Max 20MB)</span>
+                            </p>
+                            <input type="file" id="imageInput" accept="image/jpeg,image/png,image/heic,image/heif" hidden aria-label="Choose image file">
+                        </div>
+
+                        <div id="cropperContainer" class="cropper-container" hidden>
+                            <div class="cropper-wrapper">
+                                <img id="cropperImage" alt="Image to crop">
+                            </div>
+                            <div class="cropper-controls">
+                                <button type="button" id="zoomInBtn" class="btn btn-secondary" aria-label="Zoom in">
+                                    <span aria-hidden="true">🔍+</span> Zoom In
+                                </button>
+                                <button type="button" id="zoomOutBtn" class="btn btn-secondary" aria-label="Zoom out">
+                                    <span aria-hidden="true">🔍−</span> Zoom Out
+                                </button>
+                                <button type="button" id="resetCropBtn" class="btn btn-secondary" aria-label="Reset crop">
+                                    <span aria-hidden="true">↻</span> Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="toast" id="uploadToast" role="alert" aria-live="polite" aria-atomic="true"></div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button type="button" class="btn btn-primary" id="nextStep1" disabled>
+                            Next: Enter Message <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Step 2: Enter Message -->
+                <section id="step2" class="wizard-step" aria-labelledby="step2-title" hidden>
+                    <div class="step-content">
+                        <h2 id="step2-title" class="step-title">What's Important to You?</h2>
+                        <p class="step-description">Share why safety matters. This message will appear on your poster.</p>
+                        
+                        <div class="form-group">
+                            <label for="messageInput" class="form-label">Your Message</label>
+                            <textarea 
+                                id="messageInput" 
+                                class="form-control" 
+                                rows="4" 
+                                maxlength="200"
+                                placeholder="E.g., Getting home to my family every day, Coaching my daughter's soccer team, Being there for my community..."
+                                aria-describedby="messageCounter messageHelp"
+                                required
+                            ></textarea>
+                            <div class="input-meta">
+                                <small id="messageHelp" class="form-help">Express what drives you to work safely</small>
+                                <small id="messageCounter" class="char-counter" aria-live="polite">
+                                    <span id="charCount">0</span> / 140 characters
+                                </small>
+                            </div>
+                            <div id="messageWarning" class="warning-message" role="alert" aria-live="polite" hidden>
+                                ⚠️ Message is longer than recommended (140 characters). Consider shortening for better display.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button type="button" class="btn btn-secondary" id="prevStep2">
+                            <span aria-hidden="true">←</span> Back
+                        </button>
+                        <button type="button" class="btn btn-primary" id="nextStep2" disabled>
+                            Next: Enter Details <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Step 3: Enter Details -->
+                <section id="step3" class="wizard-step" aria-labelledby="step3-title" hidden>
+                    <div class="step-content">
+                        <h2 id="step3-title" class="step-title">Your Details</h2>
+                        <p class="step-description">Add your name and role to personalize your poster.</p>
+                        
+                        <div class="form-group">
+                            <label for="nameInput" class="form-label">
+                                Your Name <span class="required" aria-label="required">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="nameInput" 
+                                class="form-control" 
+                                placeholder="E.g., John Smith"
+                                aria-required="true"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="roleInput" class="form-label">
+                                Your Role <span class="required" aria-label="required">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="roleInput" 
+                                class="form-control" 
+                                placeholder="E.g., Site Engineer, Safety Officer, Project Manager"
+                                aria-required="true"
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button type="button" class="btn btn-secondary" id="prevStep3">
+                            <span aria-hidden="true">←</span> Back
+                        </button>
+                        <button type="button" class="btn btn-primary" id="nextStep3" disabled>
+                            Preview Poster <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Step 4: Preview & Export -->
+                <section id="step4" class="wizard-step" aria-labelledby="step4-title" hidden>
+                    <div class="step-content">
+                        <h2 id="step4-title" class="step-title">Your SafetyCircle Poster</h2>
+                        <p class="step-description">Review your poster and download it when ready.</p>
+                        
+                        <!-- Admin Controls -->
+                        <div id="adminControls" class="admin-panel" hidden>
+                            <h3 class="admin-title">Admin Settings</h3>
+                            <div class="admin-grid">
+                                <div class="form-group">
+                                    <label for="headlineInput" class="form-label">Headline Text</label>
+                                    <input 
+                                        type="text" 
+                                        id="headlineInput" 
+                                        class="form-control form-control-sm" 
+                                        value="Why I stay inside the SafetyCircle"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="footerInput" class="form-label">Footer Text</label>
+                                    <input 
+                                        type="text" 
+                                        id="footerInput" 
+                                        class="form-control form-control-sm" 
+                                        value="Manage Risks Well • Go Home Safe and Well Today"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="showLogoToggle" checked>
+                                        <span>Show Logo</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="showQRToggle">
+                                        <span>Show QR Code</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Poster Preview -->
+                        <div class="poster-preview-wrapper">
+                            <div id="posterPreview" class="poster-preview">
+                                <!-- Headline -->
+                                <div class="poster-headline" id="posterHeadline">
+                                    Why I stay inside the SafetyCircle
+                                </div>
+                                
+                                <!-- Photo -->
+                                <div class="poster-photo" id="posterPhoto">
+                                    <img id="posterImage" alt="Your safety poster photo">
+                                    
+                                    <!-- Caption Band -->
+                                    <div class="poster-caption" id="posterCaption">
+                                        <div class="caption-content">
+                                            <p class="caption-label">What's Important:</p>
+                                            <p class="caption-message" id="posterMessage"></p>
+                                            <div class="caption-details">
+                                                <p class="caption-name" id="posterName"></p>
+                                                <p class="caption-role" id="posterRole"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Footer -->
+                                <div class="poster-footer" id="posterFooter">
+                                    <span id="posterFooterText">Manage Risks Well • Go Home Safe and Well Today</span>
+                                </div>
+                                
+                                <!-- Logo -->
+                                <div class="poster-logo" id="posterLogo">
+                                    <svg width="60" height="60" viewBox="0 0 60 60">
+                                        <circle cx="30" cy="30" r="28" fill="#263238"/>
+                                        <circle cx="30" cy="24" r="8" fill="white"/>
+                                        <path d="M 16 42 Q 16 34 30 34 Q 44 34 44 42" fill="white"/>
+                                    </svg>
+                                </div>
+
+                                <!-- QR Code (optional) -->
+                                <div class="poster-qr" id="posterQR" hidden>
+                                    <svg width="80" height="80" viewBox="0 0 80 80">
+                                        <rect width="80" height="80" fill="white"/>
+                                        <rect x="10" y="10" width="20" height="20" fill="black"/>
+                                        <rect x="50" y="10" width="20" height="20" fill="black"/>
+                                        <rect x="10" y="50" width="20" height="20" fill="black"/>
+                                        <rect x="35" y="35" width="10" height="10" fill="black"/>
+                                        <rect x="15" y="15" width="10" height="10" fill="white"/>
+                                        <rect x="55" y="15" width="10" height="10" fill="white"/>
+                                        <rect x="15" y="55" width="10" height="10" fill="white"/>
+                                        <text x="40" y="75" text-anchor="middle" font-size="8" fill="black">QR</text>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Export Actions -->
+                        <div class="export-actions">
+                            <button type="button" class="btn btn-success btn-lg" id="downloadPNGBtn">
+                                <span aria-hidden="true">📥</span> Download PNG
+                            </button>
+                            <button type="button" class="btn btn-success btn-lg" id="downloadPDFBtn">
+                                <span aria-hidden="true">📄</span> Download PDF (A4)
+                            </button>
+                        </div>
+
+                        <!-- Draft Actions -->
+                        <div class="draft-actions">
+                            <button type="button" class="btn btn-outline" id="saveDraftBtn">
+                                <span aria-hidden="true">💾</span> Save Draft
+                            </button>
+                            <button type="button" class="btn btn-outline btn-danger" id="resetBtn">
+                                <span aria-hidden="true">🗑️</span> Reset All
+                            </button>
+                        </div>
+
+                        <div class="toast" id="exportToast" role="alert" aria-live="polite" aria-atomic="true"></div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button type="button" class="btn btn-secondary" id="prevStep4">
+                            <span aria-hidden="true">←</span> Back
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal" role="dialog" aria-labelledby="helpModalTitle" aria-modal="true" hidden>
+        <div class="modal-overlay" aria-hidden="true"></div>
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2 id="helpModalTitle" class="modal-title">Tips for Creating Your Poster</h2>
+                <button type="button" class="modal-close" aria-label="Close help modal">×</button>
+            </header>
+            <div class="modal-body">
+                <section class="help-section">
+                    <h3>📷 Choosing a Great Photo</h3>
+                    <ul>
+                        <li><strong>Use clear, well-lit images</strong> – Natural lighting works best</li>
+                        <li><strong>Show what matters</strong> – Family, hobbies, or meaningful places</li>
+                        <li><strong>Keep it professional</strong> – This will be displayed at your workplace</li>
+                        <li><strong>Portrait orientation</strong> works best but landscape is fine too</li>
+                    </ul>
+                </section>
+                
+                <section class="help-section">
+                    <h3>✍️ Writing an Effective Message</h3>
+                    <ul>
+                        <li><strong>Be personal and genuine</strong> – Share your real motivations</li>
+                        <li><strong>Keep it concise</strong> – Aim for 140 characters or less</li>
+                        <li><strong>Focus on positive outcomes</strong> – What you're working towards</li>
+                        <li><strong>Examples:</strong>
+                            <ul>
+                                <li>"Getting home to my family every night"</li>
+                                <li>"Being there for my daughter's graduation"</li>
+                                <li>"Enjoying my retirement with good health"</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="help-section">
+                    <h3>💾 Saving & Exporting</h3>
+                    <ul>
+                        <li><strong>Save Draft</strong> – Your work is automatically saved locally</li>
+                        <li><strong>Download PNG</strong> – High-resolution image for digital use</li>
+                        <li><strong>Download PDF</strong> – Print-ready A4 format</li>
+                        <li><strong>Refresh safe</strong> – Your draft persists in your browser</li>
+                    </ul>
+                </section>
+            </div>
+            <footer class="modal-footer">
+                <button type="button" class="btn btn-primary close-modal">Got It!</button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer" role="contentinfo">
+        <div class="container">
+            <p>&copy; 2024 SafetyCircle. All rights reserved. <span class="footer-separator">•</span> Privacy-first: All data stays in your browser.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.1/dist/cropper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
